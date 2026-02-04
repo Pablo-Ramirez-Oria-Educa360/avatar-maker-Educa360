@@ -5,10 +5,16 @@ import ReactDOM from "react-dom";
 import { AvatarEditorContainer } from "./react-components/AvatarEditorContainer";
 import { dispatch } from "./dispatch";
 import constants from "./constants";
+import LanguageProvider from "./i18n/LanguageProvider";
 
 // Used externally by the generate-thumbnails script
 window.renderThumbnail = (category, part) => {
   dispatch(constants.renderThumbnail, { thumbnailConfig: { category, part } });
 };
 
-ReactDOM.render(<AvatarEditorContainer />, document.getElementById("root"));
+ReactDOM.render(
+  <LanguageProvider>
+    <AvatarEditorContainer />
+  </LanguageProvider>,
+  document.getElementById("root")
+);

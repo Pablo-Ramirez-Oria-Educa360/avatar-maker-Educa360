@@ -109,8 +109,8 @@ class GLTFBinarySplitterPlugin {
   }
 }
 
-function setHubsStatus(stateValue, message, extra = {}) {
-  dispatch(constants.hubsSendStatus, { state: stateValue, message, ...extra });
+function setHubsStatus(stateValue, messageKey) {
+  dispatch(constants.hubsSendStatus, { state: stateValue, messageKey });
 }
 
 function getHubsAuth() {
@@ -194,26 +194,26 @@ async function createAvatar(files, auth) {
 async function sendAvatarToHubs() {
   const auth = getHubsAuth();
   if (!auth || !auth.token || !auth.origin) {
-    setHubsStatus("error", "Sign in to Hubs to send avatars.");
+    setHubsStatus("error", "toolbar.sign_in_hint");
     return;
   }
 
-  setHubsStatus("preparing", "Preparing avatar...");
+  setHubsStatus("preparing", "status.preparing");
   const { glb } = await exportAvatar(state.avatarGroup);
   const { gltf, bin } = await splitGlbToGltfBin(glb);
 
-  setHubsStatus("thumbnail", "Generating thumbnail...");
+  setHubsStatus("thumbnail", "status.thumbnail");
   const thumbnailBlob = await createThumbnailBlob();
   const thumbnail = new File([thumbnailBlob], "thumbnail.png", { type: "image/png" });
 
-  setHubsStatus("uploading", "Uploading files...");
+  setHubsStatus("uploading", "status.uploading");
   const [gltfUpload, binUpload, thumbnailUpload] = await Promise.all([
     uploadFile(gltf, "model/gltf", auth.origin),
     uploadFile(bin, "application/octet-stream", auth.origin),
     uploadFile(thumbnail, "image/png", auth.origin)
   ]);
 
-  setHubsStatus("creating", "Creating avatar...");
+  setHubsStatus("creating", "status.creating");
   const files = {
     gltf: [gltfUpload.file_id, gltfUpload.meta.access_token, gltfUpload.meta.promotion_token],
     bin: [binUpload.file_id, binUpload.meta.access_token, binUpload.meta.promotion_token],
@@ -221,7 +221,7 @@ async function sendAvatarToHubs() {
   };
 
   await createAvatar(files, auth);
-  setHubsStatus("success", "Avatar sent to Hubs.");
+  setHubsStatus("success", "status.success");
 }
 
 function onKeyChange(e) {
@@ -536,8 +536,9 @@ function tick(time) {
         state.sendToHubsInProgress = true;
         sendAvatarToHubs()
           .catch(err => {
+            // eslint-disable-next-line no-console
             console.error("Send to Hubs failed", err);
-            setHubsStatus("error", "Failed to send avatar to Hubs.");
+            setHubsStatus("error", "status.error");
           })
           .finally(() => {
             state.sendToHubsInProgress = false;

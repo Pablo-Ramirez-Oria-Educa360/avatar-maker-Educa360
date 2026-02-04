@@ -7,86 +7,6 @@ export default {
         "excludeFromRandomize": false
       },
       {
-        "value": "hair_aLine-asym-black",
-        "displayName": "ALine Asym Black",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "black"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-blonde",
-        "displayName": "ALine Asym Blonde",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "blonde"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-blue",
-        "displayName": "ALine Asym Blue",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "blue"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-brown",
-        "displayName": "ALine Asym Brown",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "brown"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-dark brown",
-        "displayName": "ALine Asym Dark brown",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "dark brown"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-gray",
-        "displayName": "ALine Asym Gray",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "gray"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-light brown",
-        "displayName": "ALine Asym Light brown",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "light brown"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-pink",
-        "displayName": "ALine Asym Pink",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "pink"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-red",
-        "displayName": "ALine Asym Red",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "red"
-        }
-      },
-      {
-        "value": "hair_aLine-asym-white",
-        "displayName": "ALine Asym White",
-        "description": {
-          "Type": "aLine-asym",
-          "Color": "white"
-        }
-      },
-      {
         "value": "hair_afro-1-black",
         "displayName": "Afro 1 Black",
         "description": {
@@ -243,6 +163,86 @@ export default {
         "displayName": "Afro 2 White",
         "description": {
           "Type": "afro-2",
+          "Color": "white"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-black",
+        "displayName": "ALine Asym Black",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "black"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-blonde",
+        "displayName": "ALine Asym Blonde",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "blonde"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-blue",
+        "displayName": "ALine Asym Blue",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "blue"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-brown",
+        "displayName": "ALine Asym Brown",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "brown"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-dark brown",
+        "displayName": "ALine Asym Dark brown",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "dark brown"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-gray",
+        "displayName": "ALine Asym Gray",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "gray"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-light brown",
+        "displayName": "ALine Asym Light brown",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "light brown"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-pink",
+        "displayName": "ALine Asym Pink",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "pink"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-red",
+        "displayName": "ALine Asym Red",
+        "description": {
+          "Type": "aLine-asym",
+          "Color": "red"
+        }
+      },
+      {
+        "value": "hair_aLine-asym-white",
+        "displayName": "ALine Asym White",
+        "description": {
+          "Type": "aLine-asym",
           "Color": "white"
         }
       },
@@ -1691,9 +1691,9 @@ export default {
       "Type": {
         "options": [
           null,
-          "aLine-asym",
           "afro-1",
           "afro-2",
+          "aLine-asym",
           "bob-1",
           "braided-bun",
           "eraser-top-1",
@@ -3828,22 +3828,12 @@ export default {
         "excludeFromRandomize": true
       },
       {
-        "value": "torso_style-1-bowling-shirt-1-red",
-        "displayName": "Style 1 Bowling Shirt 1 Red",
+        "value": "torso_style-1-educa360",
+        "displayName": "Style 1 Educa360",
         "description": {
           "Type": "style-1",
-          "Outfit": "bowling-shirt-1-red"
-        },
-        "matchRandomizationToNull": true
-      },
-      {
-        "value": "torso_style-1-combat-vest-red",
-        "displayName": "Style 1 Combat Vest Red",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "combat-vest-red"
-        },
-        "matchRandomizationToNull": true
+          "Outfit": "educa360"
+        }
       },
       {
         "value": "torso_style-1-sport-coat-1-dark",
@@ -3864,213 +3854,91 @@ export default {
         "matchRandomizationToNull": true
       },
       {
-        "value": "torso_style-1-tshirt-1-hubs-black",
-        "displayName": "Style 1 Tshirt 1 Hubs Black",
+        "value": "torso_style-1-tshirt-aguila-alauda",
+        "displayName": "Style 1 Tshirt Aguila Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-hubs-black"
+          "Outfit": "tshirt-aguila-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-1-hubs-gray",
-        "displayName": "Style 1 Tshirt 1 Hubs Gray",
+        "value": "torso_style-1-tshirt-chaqueta-alauda",
+        "displayName": "Style 1 Tshirt Chaqueta Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-hubs-gray"
+          "Outfit": "tshirt-chaqueta-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-1-hubs-light-gray",
-        "displayName": "Style 1 Tshirt 1 Hubs Light Gray",
+        "value": "torso_style-1-tshirt-dragon-alauda",
+        "displayName": "Style 1 Tshirt Dragon Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-hubs-light-gray"
+          "Outfit": "tshirt-dragon-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-1-hubs-white",
-        "displayName": "Style 1 Tshirt 1 Hubs White",
+        "value": "torso_style-1-tshirt-leon-alauda",
+        "displayName": "Style 1 Tshirt Leon Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-hubs-white"
+          "Outfit": "tshirt-leon-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-1-moz",
-        "displayName": "Style 1 Tshirt 1 Moz",
+        "value": "torso_style-1-tshirt-lobo-alauda",
+        "displayName": "Style 1 Tshirt Lobo Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-moz"
+          "Outfit": "tshirt-lobo-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-1-union-jack",
-        "displayName": "Style 1 Tshirt 1 Union Jack",
+        "value": "torso_style-1-tshirt-polo-alauda",
+        "displayName": "Style 1 Tshirt Polo Alauda",
         "description": {
           "Type": "style-1",
-          "Outfit": "tshirt-1-union-jack"
+          "Outfit": "tshirt-polo-alauda"
         }
       },
       {
-        "value": "torso_style-1-tshirt-pride01",
-        "displayName": "Style 1 Tshirt Pride01",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "tshirt-pride01"
-        }
-      },
-      {
-        "value": "torso_style-1-tshirt-pride02",
-        "displayName": "Style 1 Tshirt Pride02",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "tshirt-pride02"
-        }
-      },
-      {
-        "value": "torso_style-1-tshirt-pride03",
-        "displayName": "Style 1 Tshirt Pride03",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "tshirt-pride03"
-        }
-      },
-      {
-        "value": "torso_style-1-tshirt1-reactor",
-        "displayName": "Style 1 Tshirt1 Reactor",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "tshirt1-reactor"
-        }
-      },
-      {
-        "value": "torso_style-1-ugly-christmas-1",
-        "displayName": "Style 1 Ugly Christmas 1",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "ugly-christmas-1"
-        },
-        "matchRandomizationToNull": true
-      },
-      {
-        "value": "torso_style-1-waistcoat-and-cravat",
-        "displayName": "Style 1 Waistcoat And Cravat",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "waistcoat-and-cravat"
-        },
-        "matchRandomizationToNull": true
-      },
-      {
-        "value": "torso_style-2-blouse-1-purple",
-        "displayName": "Style 2 Blouse 1 Purple",
+        "value": "torso_style-2-educa360",
+        "displayName": "Style 2 Educa360",
         "description": {
           "Type": "style-2",
-          "Outfit": "blouse-1-purple"
+          "Outfit": "educa360"
         }
       },
       {
-        "value": "torso_style-2-tshirt-1-baby-unicorn",
-        "displayName": "Style 2 Tshirt 1 Baby Unicorn",
+        "value": "torso_style-2-tshirt-aguila-alauda",
+        "displayName": "Style 2 Tshirt Aguila Alauda",
         "description": {
           "Type": "style-2",
-          "Outfit": "tshirt-1-baby-unicorn"
+          "Outfit": "tshirt-aguila-alauda"
         }
       },
       {
-        "value": "torso_style-2-tshirt-1-heart-animated",
-        "displayName": "Style 2 Tshirt 1 Heart Animated",
+        "value": "torso_style-2-tshirt-dragon-alauda",
+        "displayName": "Style 2 Tshirt Dragon Alauda",
         "description": {
           "Type": "style-2",
-          "Outfit": "tshirt-1-heart-animated"
+          "Outfit": "tshirt-dragon-alauda"
         }
       },
       {
-        "value": "torso_style-2-tshirt-1-heart",
-        "displayName": "Style 2 Tshirt 1 Heart",
+        "value": "torso_style-2-tshirt-leon-alauda",
+        "displayName": "Style 2 Tshirt Leon Alauda",
         "description": {
           "Type": "style-2",
-          "Outfit": "tshirt-1-heart"
+          "Outfit": "tshirt-leon-alauda"
         }
       },
       {
-        "value": "torso_style-2-tshirt-1-hubs-black",
-        "displayName": "Style 2 Tshirt 1 Hubs Black",
+        "value": "torso_style-2-tshirt-lobo-alauda",
+        "displayName": "Style 2 Tshirt Lobo Alauda",
         "description": {
           "Type": "style-2",
-          "Outfit": "tshirt-1-hubs-black"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-1-hubs-gray",
-        "displayName": "Style 2 Tshirt 1 Hubs Gray",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-1-hubs-gray"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-1-hubs-light-gray",
-        "displayName": "Style 2 Tshirt 1 Hubs Light Gray",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-1-hubs-light-gray"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-1-hubs-white",
-        "displayName": "Style 2 Tshirt 1 Hubs White",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-1-hubs-white"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-1-moz",
-        "displayName": "Style 2 Tshirt 1 Moz",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-1-moz"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-pride01",
-        "displayName": "Style 2 Tshirt Pride01",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-pride01"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-pride02",
-        "displayName": "Style 2 Tshirt Pride02",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-pride02"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-pride03",
-        "displayName": "Style 2 Tshirt Pride03",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-pride03"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt-union-jack",
-        "displayName": "Style 2 Tshirt Union Jack",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt-union-jack"
-        }
-      },
-      {
-        "value": "torso_style-2-tshirt1-reactor",
-        "displayName": "Style 2 Tshirt1 Reactor",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "tshirt1-reactor"
+          "Outfit": "tshirt-lobo-alauda"
         }
       }
     ],
@@ -4085,27 +3953,15 @@ export default {
       },
       "Outfit": {
         "options": [
-          "bowling-shirt-1-red",
-          "combat-vest-red",
+          "educa360",
           "sport-coat-1-dark",
           "sport-coat-1-gray",
-          "tshirt-1-hubs-black",
-          "tshirt-1-hubs-gray",
-          "tshirt-1-hubs-light-gray",
-          "tshirt-1-hubs-white",
-          "tshirt-1-moz",
-          "tshirt-1-union-jack",
-          "tshirt-pride01",
-          "tshirt-pride02",
-          "tshirt-pride03",
-          "tshirt1-reactor",
-          "ugly-christmas-1",
-          "waistcoat-and-cravat",
-          "blouse-1-purple",
-          "tshirt-1-baby-unicorn",
-          "tshirt-1-heart-animated",
-          "tshirt-1-heart",
-          "tshirt-union-jack"
+          "tshirt-aguila-alauda",
+          "tshirt-chaqueta-alauda",
+          "tshirt-dragon-alauda",
+          "tshirt-leon-alauda",
+          "tshirt-lobo-alauda",
+          "tshirt-polo-alauda"
         ]
       }
     }
@@ -4116,7 +3972,7 @@ export default {
         "value": null,
         "displayName": "None",
         "excludeFromRandomize": false,
-        "randomizationWeight": 25
+        "randomizationWeight": 13
       },
       {
         "value": "torso-jacket_style-1-hoodie-1-black",
@@ -4167,54 +4023,6 @@ export default {
         }
       },
       {
-        "value": "torso-jacket_style-1-punk-leather-1-black",
-        "displayName": "Style 1 Punk Leather 1 Black",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-black"
-        }
-      },
-      {
-        "value": "torso-jacket_style-1-punk-leather-1-blue",
-        "displayName": "Style 1 Punk Leather 1 Blue",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-blue"
-        }
-      },
-      {
-        "value": "torso-jacket_style-1-punk-leather-1-brown",
-        "displayName": "Style 1 Punk Leather 1 Brown",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-brown"
-        }
-      },
-      {
-        "value": "torso-jacket_style-1-punk-leather-1-cognac",
-        "displayName": "Style 1 Punk Leather 1 Cognac",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-cognac"
-        }
-      },
-      {
-        "value": "torso-jacket_style-1-punk-leather-1-maroon",
-        "displayName": "Style 1 Punk Leather 1 Maroon",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-maroon"
-        }
-      },
-      {
-        "value": "torso-jacket_style-1-punk-leather-1-red",
-        "displayName": "Style 1 Punk Leather 1 Red",
-        "description": {
-          "Type": "style-1",
-          "Outfit": "punk-leather-1-red"
-        }
-      },
-      {
         "value": "torso-jacket_style-2-hoodie-1-black",
         "displayName": "Style 2 Hoodie 1 Black",
         "description": {
@@ -4261,54 +4069,6 @@ export default {
           "Type": "style-2",
           "Outfit": "hoodie-1-purple"
         }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-black",
-        "displayName": "Style 2 Punk Leather 1 Black",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-black"
-        }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-blue",
-        "displayName": "Style 2 Punk Leather 1 Blue",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-blue"
-        }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-brown",
-        "displayName": "Style 2 Punk Leather 1 Brown",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-brown"
-        }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-cognac",
-        "displayName": "Style 2 Punk Leather 1 Cognac",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-cognac"
-        }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-maroon",
-        "displayName": "Style 2 Punk Leather 1 Maroon",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-maroon"
-        }
-      },
-      {
-        "value": "torso-jacket_style-2-punk-leather-1-red",
-        "displayName": "Style 2 Punk Leather 1 Red",
-        "description": {
-          "Type": "style-2",
-          "Outfit": "punk-leather-1-red"
-        }
       }
     ],
     "description": {
@@ -4328,12 +4088,6 @@ export default {
           "hoodie-1-green",
           "hoodie-1-light-gray",
           "hoodie-1-red",
-          "punk-leather-1-black",
-          "punk-leather-1-blue",
-          "punk-leather-1-brown",
-          "punk-leather-1-cognac",
-          "punk-leather-1-maroon",
-          "punk-leather-1-red",
           "hoodie-1-pink",
           "hoodie-1-purple"
         ]
@@ -4370,102 +4124,6 @@ export default {
         }
       },
       {
-        "value": "headwear_hijab-black",
-        "displayName": "Hijab Black",
-        "description": {
-          "Type": "hijab",
-          "Color": "black"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
-        "value": "headwear_hijab-blue",
-        "displayName": "Hijab Blue",
-        "description": {
-          "Type": "hijab",
-          "Color": "blue"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
-        "value": "headwear_hijab-gray",
-        "displayName": "Hijab Gray",
-        "description": {
-          "Type": "hijab",
-          "Color": "gray"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
-        "value": "headwear_hijab-lavender",
-        "displayName": "Hijab Lavender",
-        "description": {
-          "Type": "hijab",
-          "Color": "lavender"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
-        "value": "headwear_hijab-pink",
-        "displayName": "Hijab Pink",
-        "description": {
-          "Type": "hijab",
-          "Color": "pink"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
-        "value": "headwear_hijab-white",
-        "displayName": "Hijab White",
-        "description": {
-          "Type": "hijab",
-          "Color": "white"
-        },
-        "morphRelationships": [
-          {
-            "targetCategoryName": "Head",
-            "targetMorphName": "ear rotate back",
-            "targetMorphValue": 1
-          }
-        ],
-        "randomizationWeight": 0.05
-      },
-      {
         "value": "headwear_spokemon-mixed",
         "displayName": "Spokemon Mixed",
         "description": {
@@ -4489,7 +4147,6 @@ export default {
           null,
           "beach-umbrella",
           "beanie-1",
-          "hijab",
           "spokemon",
           "top-hat-1"
         ],
@@ -4499,12 +4156,7 @@ export default {
         "options": [
           "mixed",
           "red",
-          "black",
-          "blue",
-          "gray",
-          "lavender",
-          "pink",
-          "white"
+          "black"
         ]
       }
     }
@@ -4589,19 +4241,6 @@ export default {
         "value": null,
         "displayName": "None",
         "excludeFromRandomize": false
-      },
-      {
-        "value": "accessory_duck-floaty",
-        "displayName": "Duck Floaty"
-      },
-      {
-        "value": "accessory_face-mask-1-animated",
-        "displayName": "Face Mask 1 Animated",
-        "randomizationWeight": 0.5
-      },
-      {
-        "value": "accessory_headband-cat-ears-1",
-        "displayName": "Headband Cat Ears 1"
       },
       {
         "value": "accessory_headphones-1-black",

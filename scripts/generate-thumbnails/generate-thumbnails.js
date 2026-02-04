@@ -1,16 +1,20 @@
 import path from "path";
 import fs from "fs";
 import readline from "readline";
+import { fileURLToPath } from "url";
 import puppeteer from "puppeteer";
-import yargs from "yargs/yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import promptSync from "prompt-sync";
 const prompt = promptSync();
 
-import options from "./options";
-import retrySelector from "./utils/retry-selector";
-import assets from "../../src/assets";
-import constants from "../../src/constants";
+import options from "./options.js";
+import retrySelector from "./utils/retry-selector.js";
+import assets from "../../src/assets.js";
+import constants from "../../src/constants.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Use these options by running `npm run gen-thumbnails -- --option`
 const { argv } = yargs(hideBin(process.argv))

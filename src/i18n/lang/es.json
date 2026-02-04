@@ -1,0 +1,15 @@
+{
+  "app.name": "Creador de Avatares Educa360",
+  "toolbar.randomize": "Aleatorio",
+  "toolbar.reset": "Reiniciar",
+  "toolbar.export": "Exportar",
+  "toolbar.send_to_hubs": "Enviar a Hubs",
+  "toolbar.return_to_hubs": "Volver a Hubs",
+  "toolbar.sign_in_hint": "Inicia sesion en Hubs para enviar avatares.",
+  "status.preparing": "Preparando avatar...",
+  "status.thumbnail": "Generando miniatura...",
+  "status.uploading": "Subiendo archivos...",
+  "status.creating": "Creando avatar...",
+  "status.success": "Avatar enviado a Hubs.",
+  "status.error": "Error al enviar avatar a Hubs."
+}
