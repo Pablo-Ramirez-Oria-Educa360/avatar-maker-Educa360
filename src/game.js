@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import constants from "./constants";
 import { exportAvatar } from "./export";
 import {
@@ -20,6 +21,7 @@ import uvScroll from "./uv-scroll";
 import idleEyes from "./idle-eyes";
 import assets from "./assets";
 import debugConfig from "./debug-config";
+import { dispatch } from "./dispatch";
 
 // Used to test mesh combination
 window.combineCurrentAvatar = async function () {
@@ -44,6 +46,7 @@ const state = {
   newAvatarConfig: {},
   shouldApplyNewAvatarConfig: false,
   shouldExportAvatar: false,
+  shouldSendToHubs: false,
   shouldResetView: false,
   thumbnailConfig: {},
   shouldRenderThumbnail: false,
@@ -54,6 +57,7 @@ const state = {
   quietMode: false,
   shouldRenderInQuietMode: true,
   shouldApplyMorphRelationships: false,
+  sendToHubsInProgress: false,
 };
 window.gameState = state;
 
@@ -74,9 +78,151 @@ document.addEventListener(constants.renderThumbnail, (e) => {
 document.addEventListener(constants.exportAvatar, () => {
   state.shouldExportAvatar = true;
 });
+document.addEventListener(constants.sendToHubs, () => {
+  state.shouldSendToHubs = true;
+});
 document.addEventListener(constants.resetView, () => {
   state.shouldResetView = true;
 });
+
+const THUMBNAIL_WIDTH = 720;
+const THUMBNAIL_HEIGHT = 1280;
+
+class GLTFBinarySplitterPlugin {
+  constructor(parser) {
+    this.parser = parser;
+    this.gltf = null;
+    this.bin = null;
+  }
+
+  beforeRoot() {
+    const { body } = this.parser.extensions.KHR_binary_glTF;
+    const content = JSON.stringify(this.parser.json);
+    this.gltf = new File([content], "file.gltf", { type: "model/gltf" });
+    this.bin = new File([body], "file.bin", { type: "application/octet-stream" });
+  }
+
+  afterRoot(result) {
+    result.files = result.files || {};
+    result.files.gltf = this.gltf;
+    result.files.bin = this.bin;
+  }
+}
+
+function setHubsStatus(stateValue, message, extra = {}) {
+  dispatch(constants.hubsSendStatus, { state: stateValue, message, ...extra });
+}
+
+function getHubsAuth() {
+  return window.hubsAuth;
+}
+
+async function splitGlbToGltfBin(glbArrayBuffer) {
+  const loader = new GLTFLoader().register(parser => new GLTFBinarySplitterPlugin(parser));
+  return new Promise((resolve, reject) => {
+    loader.parse(
+      glbArrayBuffer,
+      "",
+      result => resolve({ gltf: result.files.gltf, bin: result.files.bin }),
+      reject
+    );
+  });
+}
+
+async function createThumbnailBlob() {
+  const canvas = document.createElement("canvas");
+  canvas.width = THUMBNAIL_WIDTH;
+  canvas.height = THUMBNAIL_HEIGHT;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, false);
+  renderer.setClearAlpha(0);
+
+  const camera = state.camera.clone();
+  camera.aspect = THUMBNAIL_WIDTH / THUMBNAIL_HEIGHT;
+  camera.updateProjectionMatrix();
+
+  renderer.render(state.scene, camera);
+
+  return new Promise(resolve => {
+    canvas.toBlob(blob => resolve(blob), "image/png");
+  });
+}
+
+async function uploadFile(file, desiredContentType, origin) {
+  const formData = new FormData();
+  formData.append("media", file);
+  formData.append("promotion_mode", "with_token");
+  if (desiredContentType) {
+    formData.append("desired_content_type", desiredContentType);
+  }
+
+  const response = await fetch(`${origin}/api/v1/media`, {
+    method: "POST",
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error(`Upload failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function createAvatar(files, auth) {
+  const response = await fetch(`${auth.origin}/api/v1/avatars`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `bearer ${auth.token}`
+    },
+    body: JSON.stringify({
+      avatar: {
+        name: "My Avatar",
+        files
+      }
+    })
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Avatar create failed: ${response.status} ${body}`);
+  }
+
+  return response.json();
+}
+
+async function sendAvatarToHubs() {
+  const auth = getHubsAuth();
+  if (!auth || !auth.token || !auth.origin) {
+    setHubsStatus("error", "Sign in to Hubs to send avatars.");
+    return;
+  }
+
+  setHubsStatus("preparing", "Preparing avatar...");
+  const { glb } = await exportAvatar(state.avatarGroup);
+  const { gltf, bin } = await splitGlbToGltfBin(glb);
+
+  setHubsStatus("thumbnail", "Generating thumbnail...");
+  const thumbnailBlob = await createThumbnailBlob();
+  const thumbnail = new File([thumbnailBlob], "thumbnail.png", { type: "image/png" });
+
+  setHubsStatus("uploading", "Uploading files...");
+  const [gltfUpload, binUpload, thumbnailUpload] = await Promise.all([
+    uploadFile(gltf, "model/gltf", auth.origin),
+    uploadFile(bin, "application/octet-stream", auth.origin),
+    uploadFile(thumbnail, "image/png", auth.origin)
+  ]);
+
+  setHubsStatus("creating", "Creating avatar...");
+  const files = {
+    gltf: [gltfUpload.file_id, gltfUpload.meta.access_token, gltfUpload.meta.promotion_token],
+    bin: [binUpload.file_id, binUpload.meta.access_token, binUpload.meta.promotion_token],
+    thumbnail: [thumbnailUpload.file_id, thumbnailUpload.meta.access_token, thumbnailUpload.meta.promotion_token]
+  };
+
+  await createAvatar(files, auth);
+  setHubsStatus("success", "Avatar sent to Hubs.");
+}
 
 function onKeyChange(e) {
   switch (e.key) {
@@ -380,6 +526,23 @@ function tick(time) {
           });
         }
       });
+    }
+  }
+
+  {
+    if (state.shouldSendToHubs) {
+      state.shouldSendToHubs = false;
+      if (!state.sendToHubsInProgress) {
+        state.sendToHubsInProgress = true;
+        sendAvatarToHubs()
+          .catch(err => {
+            console.error("Send to Hubs failed", err);
+            setHubsStatus("error", "Failed to send avatar to Hubs.");
+          })
+          .finally(() => {
+            state.sendToHubsInProgress = false;
+          });
+      }
     }
   }
 

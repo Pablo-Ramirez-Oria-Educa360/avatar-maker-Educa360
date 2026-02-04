@@ -12,6 +12,8 @@ import initialAssets from "../assets";
 import { isThumbnailMode } from "../utils";
 import debounce from "../utils/debounce";
 
+const HUBS_ORIGIN = "https://educa360.es";
+
 // Used externally by the generate-thumbnails script
 const thumbnailMode = isThumbnailMode();
 
@@ -24,6 +26,8 @@ export function AvatarEditorContainer() {
   const initialConfig = generateRandomConfig(assets);
   const [avatarConfig, setAvatarConfig] = useState(initialConfig);
   const [tipState, setTipState] = useState({ visible: false, text: "", top: 0, left: 0 });
+  const [hubsAuth, setHubsAuth] = useState({ ready: false, returnUrl: null });
+  const [hubsStatus, setHubsStatus] = useState(null);
 
   useEffect(() => {
     if (!thumbnailMode) {
@@ -31,6 +35,44 @@ export function AvatarEditorContainer() {
     }
     dispatch(constants.reactIsLoaded);
   });
+
+  useEffect(() => {
+    function onMessage(event) {
+      if (event.origin !== HUBS_ORIGIN) return;
+      const data = event.data || {};
+      if (data.type !== "HUBS_AUTH" || data.version !== 1) return;
+      if (!data.token) return;
+
+      const auth = {
+        token: data.token,
+        userId: data.userId,
+        origin: HUBS_ORIGIN,
+        returnUrl: data.returnUrl || HUBS_ORIGIN
+      };
+
+      window.hubsAuth = auth;
+      setHubsAuth({ ready: true, returnUrl: auth.returnUrl });
+      dispatch(constants.hubsAuth, auth);
+
+      if (event.source && event.source.postMessage) {
+        event.source.postMessage(
+          { type: "HUBS_AUTH_ACK", version: 1, nonce: data.nonce, status: "ok" },
+          event.origin
+        );
+      }
+    }
+
+    function onHubsStatus(event) {
+      setHubsStatus(event.detail);
+    }
+
+    window.addEventListener("message", onMessage);
+    document.addEventListener(constants.hubsSendStatus, onHubsStatus);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      document.removeEventListener(constants.hubsSendStatus, onHubsStatus);
+    };
+  }, []);
 
   // TODO: Save the wave to a static image, or actually do some interesting animation with it.
   useEffect(async () => {
@@ -137,7 +179,7 @@ export function AvatarEditorContainer() {
         ),
         rightPanel: <AvatarPreviewContainer {...{ thumbnailMode, canvasUrl }} />,
         buttonTip: <ButtonTip {...tipState} />,
-        toolbar: <ToolbarContainer {...{ onGLBUploaded, randomizeConfig }} />,
+        toolbar: <ToolbarContainer {...{ onGLBUploaded, randomizeConfig, hubsAuth, hubsStatus }} />,
       }}
     />
   );

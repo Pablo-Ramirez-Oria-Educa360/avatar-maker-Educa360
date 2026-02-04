@@ -215,6 +215,14 @@ label {
   font-size: 9pt;
 }
 
+.toolbarStatus {
+  display: flex;
+  justify-content: center;
+  padding: 0 1em 8px;
+  color: #666;
+  font-size: 9pt;
+}
+
 .toolbarContent {
   padding: 20px 20px;
   padding-bottom: 5px;
@@ -251,6 +259,23 @@ button.primary:hover,
 button.primary:focus {
   background-color: lightblue;
   border-color: lightblue;
+}
+
+.returnButton {
+  display: inline-block;
+  background-color: white;
+  border-radius: var(--border-radius);
+  border: 2px solid grey;
+  color: grey;
+  font-size: 10pt;
+  padding: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.returnButton:hover,
+.returnButton:focus {
+  background-color: lightgrey;
 }
 
 .toolbarContent .uploadButton input {
