@@ -194,7 +194,7 @@ async function createAvatar(files, auth) {
 async function sendAvatarToHubs() {
   const auth = getHubsAuth();
   if (!auth || !auth.token || !auth.origin) {
-    setHubsStatus("error", "toolbar.sign_in_hint");
+    setHubsStatus("error", "status.auth_required");
     return;
   }
 

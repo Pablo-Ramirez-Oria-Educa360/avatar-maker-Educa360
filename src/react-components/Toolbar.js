@@ -1,8 +1,8 @@
 import React from "react";
 
-export function Toolbar({children}) {
+export function Toolbar({ children, className = "" }) {
   return (
-    <div className="toolbar">
+    <div className={`toolbar${className ? ` ${className}` : ""}`}>
       {children}
     </div>
   );
