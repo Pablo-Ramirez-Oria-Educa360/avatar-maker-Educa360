@@ -3828,6 +3828,22 @@ export default {
         "excludeFromRandomize": true
       },
       {
+        "value": "torso_style-1-ancient-egypt",
+        "displayName": "Style 1 Ancient Egypt",
+        "description": {
+          "Type": "style-1",
+          "Outfit": "ancient-egypt"
+        }
+      },
+      {
+        "value": "torso_style-1-centurion-02",
+        "displayName": "Style 1 Centurion 02",
+        "description": {
+          "Type": "style-1",
+          "Outfit": "centurion-02"
+        }
+      },
+      {
         "value": "torso_style-1-educa360",
         "displayName": "Style 1 Educa360",
         "description": {
@@ -3953,6 +3969,8 @@ export default {
       },
       "Outfit": {
         "options": [
+          "ancient-egypt",
+          "centurion-02",
           "educa360",
           "sport-coat-1-dark",
           "sport-coat-1-gray",
@@ -4124,6 +4142,22 @@ export default {
         }
       },
       {
+        "value": "headwear_egicio-arquero-mixed",
+        "displayName": "Egicio Arquero Mixed",
+        "description": {
+          "Type": "egicio-arquero",
+          "Color": "mixed"
+        }
+      },
+      {
+        "value": "headwear_roman-centurion-mixed",
+        "displayName": "Roman Centurion Mixed",
+        "description": {
+          "Type": "roman-centurion",
+          "Color": "mixed"
+        }
+      },
+      {
         "value": "headwear_spokemon-mixed",
         "displayName": "Spokemon Mixed",
         "description": {
@@ -4147,6 +4181,8 @@ export default {
           null,
           "beach-umbrella",
           "beanie-1",
+          "egicio-arquero",
+          "roman-centurion",
           "spokemon",
           "top-hat-1"
         ],
