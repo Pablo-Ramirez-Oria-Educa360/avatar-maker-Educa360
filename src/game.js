@@ -223,9 +223,7 @@ async function getBaseAvatarListingId(auth) {
   if (baseAvatarListingIdCache) return baseAvatarListingIdCache;
 
   const entries = await fetchAvatarListingEntries(auth, "base");
-  if (!entries.length) {
-    throw new Error("Base avatar listing fetch failed: empty result.");
-  }
+  if (!entries.length) return null;
 
   const randomEntry = entries[Math.floor(Math.random() * entries.length)];
   baseAvatarListingIdCache = randomEntry.id;
@@ -244,7 +242,7 @@ async function createAvatar(files, auth) {
     body: JSON.stringify({
       avatar: {
         name: "My Avatar",
-        parent_avatar_listing_id: parentAvatarListingId,
+        ...(parentAvatarListingId ? { parent_avatar_listing_id: parentAvatarListingId } : {}),
         files
       }
     })
