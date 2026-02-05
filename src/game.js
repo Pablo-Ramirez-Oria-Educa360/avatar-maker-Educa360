@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import constants from "./constants";
 import { exportAvatar } from "./export";
 import {
@@ -88,31 +87,6 @@ document.addEventListener(constants.resetView, () => {
 const THUMBNAIL_WIDTH = 720;
 const THUMBNAIL_HEIGHT = 1280;
 
-class GLTFBinarySplitterPlugin {
-  constructor(parser) {
-    this.parser = parser;
-    this.gltf = null;
-    this.bin = null;
-  }
-
-  beforeRoot() {
-    const parser = this.parser;
-    const { body } = parser.extensions.KHR_binary_glTF;
-    const content = JSON.stringify(parser.json);
-    this.gltf = new File([content], "file.gltf", { type: "model/gltf" });
-    this.bin = new File([body], "file.bin", { type: "application/octet-stream" });
-
-    // Avoid parsing the full scene — we only need the split files.
-    parser.json = { asset: { version: "2.0" } };
-  }
-
-  afterRoot(result) {
-    result.files = result.files || {};
-    result.files.gltf = this.gltf;
-    result.files.bin = this.bin;
-  }
-}
-
 function setHubsStatus(stateValue, messageKey) {
   dispatch(constants.hubsSendStatus, { state: stateValue, messageKey });
 }
@@ -141,26 +115,48 @@ function notifyHubsAvatarCreated(result) {
 }
 
 async function splitGlbToGltfBin(glbArrayBuffer) {
-  const loader = new GLTFLoader().register(parser => new GLTFBinarySplitterPlugin(parser));
-  const glbUrl = URL.createObjectURL(new Blob([glbArrayBuffer], { type: "model/gltf-binary" }));
-  try {
-    return await new Promise((resolve, reject) => {
-      loader.load(
-        glbUrl,
-        result => {
-          if (!result.files || !result.files.gltf || !result.files.bin) {
-            reject(new Error("GLB split failed: missing gltf/bin files."));
-            return;
-          }
-          resolve({ gltf: result.files.gltf, bin: result.files.bin });
-        },
-        undefined,
-        reject
-      );
-    });
-  } finally {
-    URL.revokeObjectURL(glbUrl);
+  const arrayBuffer =
+    glbArrayBuffer instanceof ArrayBuffer
+      ? glbArrayBuffer
+      : glbArrayBuffer.buffer.slice(glbArrayBuffer.byteOffset, glbArrayBuffer.byteOffset + glbArrayBuffer.byteLength);
+
+  const view = new DataView(arrayBuffer);
+  const magic = view.getUint32(0, true);
+  const version = view.getUint32(4, true);
+  const length = view.getUint32(8, true);
+
+  if (magic !== 0x46546c67 || version !== 2 || length !== arrayBuffer.byteLength) {
+    throw new Error("GLB split failed: invalid GLB header.");
   }
+
+  let offset = 12;
+  let jsonText = null;
+  let binBuffer = null;
+
+  while (offset < length) {
+    const chunkLength = view.getUint32(offset, true);
+    const chunkType = view.getUint32(offset + 4, true);
+    const chunkData = arrayBuffer.slice(offset + 8, offset + 8 + chunkLength);
+
+    if (chunkType === 0x4e4f534a) {
+      // JSON
+      jsonText = new TextDecoder("utf-8").decode(new Uint8Array(chunkData)).replace(/\0/g, "").trimEnd();
+    } else if (chunkType === 0x004e4942) {
+      // BIN
+      binBuffer = chunkData;
+    }
+
+    offset += 8 + chunkLength;
+  }
+
+  if (!jsonText || !binBuffer) {
+    throw new Error("GLB split failed: missing gltf/bin files.");
+  }
+
+  return {
+    gltf: new File([jsonText], "file.gltf", { type: "model/gltf" }),
+    bin: new File([binBuffer], "file.bin", { type: "application/octet-stream" })
+  };
 }
 
 async function createThumbnailBlob() {
