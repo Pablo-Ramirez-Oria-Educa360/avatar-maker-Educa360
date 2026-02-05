@@ -198,7 +198,34 @@ async function uploadFile(file, desiredContentType, origin) {
   return response.json();
 }
 
+let baseAvatarListingIdCache = null;
+
+async function getBaseAvatarListingId(auth) {
+  if (baseAvatarListingIdCache) return baseAvatarListingIdCache;
+
+  const response = await fetch(`${auth.origin}/api/v1/media/search?filter=base&source=avatar_listings`, {
+    headers: {
+      authorization: `bearer ${auth.token}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Base avatar listing fetch failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const entries = (data && data.entries) || [];
+  if (!entries.length) {
+    throw new Error("Base avatar listing fetch failed: empty result.");
+  }
+
+  baseAvatarListingIdCache = entries[0].id;
+  return baseAvatarListingIdCache;
+}
+
 async function createAvatar(files, auth) {
+  const parentAvatarListingId = await getBaseAvatarListingId(auth);
+
   const response = await fetch(`${auth.origin}/api/v1/avatars`, {
     method: "POST",
     headers: {
@@ -208,6 +235,7 @@ async function createAvatar(files, auth) {
     body: JSON.stringify({
       avatar: {
         name: "My Avatar",
+        parent_avatar_listing_id: parentAvatarListingId,
         files
       }
     })
