@@ -159,7 +159,7 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
             {!hubsReady && <div className="modalHint">{t("modal.auth_hint")}</div>}
             {statusText && <div className="modalStatus">{statusText}</div>}
             <div className="modalActions">
-              <button type="button" onClick={dispatchExportAvatar} className="btn btnPrimary">
+              <button type="button" onClick={dispatchExportAvatar} className="btn btnAccent">
                 <span className="btnIcon" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
                     <path d="M12 3v12" />
