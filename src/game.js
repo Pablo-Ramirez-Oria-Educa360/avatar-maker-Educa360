@@ -242,7 +242,8 @@ async function createAvatar(files, auth) {
     body: JSON.stringify({
       avatar: {
         name: "My Avatar",
-        ...(parentAvatarListingId ? { parent_avatar_listing_id: parentAvatarListingId } : {}),
+        attributions: {},
+        parent_avatar_listing_id: parentAvatarListingId || "",
         files
       }
     })
