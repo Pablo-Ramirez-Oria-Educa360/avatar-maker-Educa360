@@ -14,10 +14,6 @@ function dispatchExportAvatar() {
   dispatch(constants.exportAvatar);
 }
 
-function dispatchSendToHubs() {
-  dispatch(constants.sendToHubs);
-}
-
 export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hubsStatus }) {
   const { t } = useStrings();
   const hubsReady = hubsAuth && hubsAuth.ready;
@@ -27,6 +23,13 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
   const [collapsed, setCollapsed] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
+  const [avatarName, setAvatarName] = useState(t("avatar.default_name"));
+
+  function dispatchSendToHubs() {
+    dispatch(constants.sendToHubs, {
+      name: (avatarName || "").trim() || t("avatar.default_name")
+    });
+  }
 
   function handleConfirm() {
     if (confirmAction === "randomize") {
@@ -147,6 +150,21 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
               </button>
             </div>
             <div className="modalSteps">
+              <div className="modalField">
+                <label className="modalLabel" htmlFor="avatarNameInput">
+                  {t("modal.name.label")}
+                </label>
+                <input
+                  id="avatarNameInput"
+                  className="modalInput"
+                  type="text"
+                  value={avatarName}
+                  onChange={event => setAvatarName(event.target.value)}
+                  placeholder={t("modal.name.placeholder")}
+                  maxLength={64}
+                />
+                <span className="modalHelper">{t("modal.name.helper")}</span>
+              </div>
               <div className="modalStep">
                 <span className="modalStepTitle">{t("modal.step.download.title")}</span>
                 <span className="modalStepBody">{t("modal.step.download.body")}</span>

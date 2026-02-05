@@ -501,6 +501,36 @@ label {
   margin: 16px 0;
 }
 
+.modalField {
+  display: grid;
+  gap: 6px;
+}
+
+.modalLabel {
+  font-size: 10.5pt;
+  color: #cfe7da;
+}
+
+.modalInput {
+  background: #0f151b;
+  border: 1px solid #263241;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #f4fef7;
+  font-size: 11pt;
+}
+
+.modalInput:focus {
+  outline: none;
+  border-color: #59c375;
+  box-shadow: 0 0 0 2px rgba(89, 195, 117, 0.2);
+}
+
+.modalHelper {
+  font-size: 9.5pt;
+  color: #9db2a6;
+}
+
 .modalStep {
   background: #151d25;
   border: 1px solid #243241;

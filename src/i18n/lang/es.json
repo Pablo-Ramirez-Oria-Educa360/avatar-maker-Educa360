@@ -8,6 +8,9 @@
   "toolbar.collapse": "Contraer panel",
   "modal.title": "¡Ya casi estás!",
   "modal.subtitle": "Elige cómo quieres guardar tu avatar.",
+  "modal.name.label": "Nombre del avatar",
+  "modal.name.placeholder": "Mi avatar",
+  "modal.name.helper": "Este nombre aparecerá en Mis avatares.",
   "modal.step.download.title": "Descarga el archivo .GLB",
   "modal.step.download.body": "Guárdalo en tu equipo y súbelo en Hubs cuando quieras.",
   "modal.step.send.title": "Envíalo directo a Hubs",
@@ -29,5 +32,6 @@
   "status.creating": "Creando avatar...",
   "status.success": "Avatar enviado a Hubs.",
   "status.auth_required": "Inicia sesión en Hubs para habilitar el envío.",
-  "status.error": "Error al enviar avatar a Hubs."
+  "status.error": "Error al enviar avatar a Hubs.",
+  "avatar.default_name": "Mi avatar"
 }

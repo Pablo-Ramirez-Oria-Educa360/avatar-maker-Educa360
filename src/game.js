@@ -49,6 +49,7 @@ const state = {
   shouldResetView: false,
   thumbnailConfig: {},
   shouldRenderThumbnail: false,
+  sendToHubsName: "",
   shouldRotateLeft: false,
   shouldRotateRight: false,
   idleEyesMixers: {},
@@ -77,8 +78,9 @@ document.addEventListener(constants.renderThumbnail, (e) => {
 document.addEventListener(constants.exportAvatar, () => {
   state.shouldExportAvatar = true;
 });
-document.addEventListener(constants.sendToHubs, () => {
+document.addEventListener(constants.sendToHubs, (e) => {
   state.shouldSendToHubs = true;
+  state.sendToHubsName = (e && e.detail && e.detail.name) || "";
 });
 document.addEventListener(constants.resetView, () => {
   state.shouldResetView = true;
@@ -259,7 +261,7 @@ async function getBaseAvatarListingId(auth) {
   return baseAvatarListingIdCache;
 }
 
-async function createAvatar(files, auth) {
+async function createAvatar(files, auth, name) {
   const parentAvatarListingId = await getBaseAvatarListingId(auth);
 
   const response = await fetch(`${auth.origin}/api/v1/avatars`, {
@@ -270,7 +272,7 @@ async function createAvatar(files, auth) {
     },
     body: JSON.stringify({
       avatar: {
-        name: "My Avatar",
+        name: name || "My Avatar",
         attributions: {},
         parent_avatar_listing_id: parentAvatarListingId || "",
         files
@@ -293,6 +295,7 @@ async function sendAvatarToHubs() {
     return;
   }
 
+  const avatarName = (state.sendToHubsName || "").trim() || "My Avatar";
   setHubsStatus("preparing", "status.preparing");
   const { glb } = await exportAvatar(state.avatarGroup);
   const { gltf, bin } = await splitGlbToGltfBin(glb);
@@ -315,7 +318,7 @@ async function sendAvatarToHubs() {
     thumbnail: [thumbnailUpload.file_id, thumbnailUpload.meta.access_token, thumbnailUpload.meta.promotion_token]
   };
 
-  const created = await createAvatar(files, auth);
+  const created = await createAvatar(files, auth, avatarName);
   setHubsStatus("success", "status.success");
   notifyHubsAvatarCreated(created);
 }

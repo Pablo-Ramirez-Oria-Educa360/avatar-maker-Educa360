@@ -8,6 +8,9 @@
   "toolbar.collapse": "Collapse panel",
   "modal.title": "You’re almost there!",
   "modal.subtitle": "Choose how you want to save your avatar.",
+  "modal.name.label": "Avatar name",
+  "modal.name.placeholder": "My Avatar",
+  "modal.name.helper": "This name appears in My Avatars.",
   "modal.step.download.title": "Download the .GLB file",
   "modal.step.download.body": "Save it on your device and upload it in Hubs later.",
   "modal.step.send.title": "Send it straight to Hubs",
@@ -29,5 +32,6 @@
   "status.creating": "Creating avatar...",
   "status.success": "Avatar sent to Hubs.",
   "status.auth_required": "Sign in to Hubs to enable sending.",
-  "status.error": "Failed to send avatar to Hubs."
+  "status.error": "Failed to send avatar to Hubs.",
+  "avatar.default_name": "My Avatar"
 }
