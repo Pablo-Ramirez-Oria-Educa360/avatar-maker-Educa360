@@ -51,6 +51,9 @@ export function AvatarEditorContainer() {
       };
 
       window.hubsAuth = auth;
+      if (event.source) {
+        window.hubsMessageTarget = { source: event.source, origin: event.origin };
+      }
       setHubsAuth({ ready: true, returnUrl: auth.returnUrl });
       dispatch(constants.hubsAuth, auth);
 

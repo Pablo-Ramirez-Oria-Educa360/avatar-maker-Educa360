@@ -117,6 +117,25 @@ function getHubsAuth() {
   return window.hubsAuth;
 }
 
+function getHubsMessageTarget() {
+  return window.hubsMessageTarget;
+}
+
+function notifyHubsAvatarCreated(result) {
+  const target = getHubsMessageTarget();
+  if (!target || !target.source || !target.origin) return;
+
+  const avatarId =
+    result && result.avatar && result.avatar.id ? result.avatar.id : result && result.id ? result.id : null;
+
+  try {
+    target.source.postMessage({ type: "HUBS_AVATAR_CREATED", version: 1, avatarId }, target.origin);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn("Failed to notify Hubs about avatar creation", err);
+  }
+}
+
 async function splitGlbToGltfBin(glbArrayBuffer) {
   const loader = new GLTFLoader().register(parser => new GLTFBinarySplitterPlugin(parser));
   return new Promise((resolve, reject) => {
@@ -220,8 +239,9 @@ async function sendAvatarToHubs() {
     thumbnail: [thumbnailUpload.file_id, thumbnailUpload.meta.access_token, thumbnailUpload.meta.promotion_token]
   };
 
-  await createAvatar(files, auth);
+  const created = await createAvatar(files, auth);
   setHubsStatus("success", "status.success");
+  notifyHubsAvatarCreated(created);
 }
 
 function onKeyChange(e) {
