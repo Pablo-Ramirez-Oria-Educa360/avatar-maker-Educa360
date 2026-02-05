@@ -200,10 +200,12 @@ async function uploadFile(file, desiredContentType, origin) {
 
 let baseAvatarListingIdCache = null;
 
-async function getBaseAvatarListingId(auth) {
-  if (baseAvatarListingIdCache) return baseAvatarListingIdCache;
+async function fetchAvatarListingEntries(auth, filter) {
+  const url = new URL("/api/v1/media/search", auth.origin);
+  url.searchParams.set("source", "avatar_listings");
+  if (filter) url.searchParams.set("filter", filter);
 
-  const response = await fetch(`${auth.origin}/api/v1/media/search?filter=base&source=avatar_listings`, {
+  const response = await fetch(url.toString(), {
     headers: {
       authorization: `bearer ${auth.token}`
     }
@@ -214,12 +216,19 @@ async function getBaseAvatarListingId(auth) {
   }
 
   const data = await response.json();
-  const entries = (data && data.entries) || [];
+  return (data && data.entries) || [];
+}
+
+async function getBaseAvatarListingId(auth) {
+  if (baseAvatarListingIdCache) return baseAvatarListingIdCache;
+
+  const entries = await fetchAvatarListingEntries(auth, "base");
   if (!entries.length) {
     throw new Error("Base avatar listing fetch failed: empty result.");
   }
 
-  baseAvatarListingIdCache = entries[0].id;
+  const randomEntry = entries[Math.floor(Math.random() * entries.length)];
+  baseAvatarListingIdCache = randomEntry.id;
   return baseAvatarListingIdCache;
 }
 
