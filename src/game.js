@@ -87,6 +87,32 @@ document.addEventListener(constants.resetView, () => {
 const THUMBNAIL_WIDTH = 720;
 const THUMBNAIL_HEIGHT = 1280;
 
+const MAT_NAME = "Bot_PBS";
+function ensureAvatarMaterial(gltf) {
+  if (gltf.materials && gltf.materials.find(m => m.name === MAT_NAME)) return gltf;
+
+  function materialForMesh(mesh) {
+    if (!mesh || !mesh.primitives) return;
+    const primitive = mesh.primitives.find(p => p.material !== undefined);
+    return primitive && gltf.materials && gltf.materials[primitive.material];
+  }
+
+  let nodes = (gltf.scenes && gltf.nodes && gltf.scenes[gltf.scene] && gltf.scenes[gltf.scene].nodes) || [];
+  nodes = nodes.slice(0);
+
+  while (nodes.length) {
+    const node = gltf.nodes[nodes.shift()];
+    const material = node && node.mesh !== undefined && materialForMesh(gltf.meshes[node.mesh]);
+    if (material) {
+      material.name = MAT_NAME;
+      break;
+    }
+    if (node && node.children) nodes = nodes.concat(node.children);
+  }
+
+  return gltf;
+}
+
 function setHubsStatus(stateValue, messageKey) {
   dispatch(constants.hubsSendStatus, { state: stateValue, messageKey });
 }
@@ -153,8 +179,11 @@ async function splitGlbToGltfBin(glbArrayBuffer) {
     throw new Error("GLB split failed: missing gltf/bin files.");
   }
 
+  const gltfJson = ensureAvatarMaterial(JSON.parse(jsonText));
+  const gltfText = JSON.stringify(gltfJson);
+
   return {
-    gltf: new File([jsonText], "file.gltf", { type: "model/gltf" }),
+    gltf: new File([gltfText], "file.gltf", { type: "model/gltf" }),
     bin: new File([binBuffer], "file.bin", { type: "application/octet-stream" })
   };
 }
