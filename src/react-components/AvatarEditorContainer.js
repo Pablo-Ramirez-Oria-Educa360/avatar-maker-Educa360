@@ -81,6 +81,7 @@ export function AvatarEditorContainer() {
     if (!hubsAuth.ready || thumbnailMode) return;
 
     const onBeforeUnload = (event) => {
+      if (window.__skipBeforeUnloadPrompt) return;
       event.preventDefault();
       event.returnValue = "";
       return "";

@@ -13,11 +13,11 @@
   "modal.name.helper": "This name appears in My Avatars.",
   "modal.step.download.title": "Download the .GLB file",
   "modal.step.download.body": "Save it on your device and upload it in Hubs later.",
-  "modal.step.send.title": "Send it straight to Hubs",
+  "modal.step.send.title": "Send to your account",
   "modal.step.send.body": "It will appear in “My Avatars” for your account.",
   "modal.action.download": "Download .GLB",
-  "modal.action.send": "Send to Hubs",
-  "modal.auth_hint": "Sign in to Hubs to enable sending.",
+  "modal.action.send": "Send to your account",
+  "modal.auth_hint": "Sign in to Hubs to enable automatic sending.",
   "modal.close": "Close",
   "confirm.cancel": "Cancel",
   "confirm.randomize.title": "Randomize avatar?",
@@ -53,7 +53,7 @@
   "status.uploading": "Uploading files...",
   "status.creating": "Creating avatar...",
   "status.success": "Avatar sent to Hubs.",
-  "status.auth_required": "Sign in to Hubs to enable sending.",
+  "status.auth_required": "Sign in to Hubs to enable automatic sending.",
   "status.error": "Failed to send avatar to Hubs.",
   "avatar.default_name": "My Avatar"
 }

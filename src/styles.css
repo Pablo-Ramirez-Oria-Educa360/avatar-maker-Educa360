@@ -327,6 +327,13 @@ label {
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
 }
 
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
+}
+
 .btn:hover,
 .btn:focus,
 .returnButton:hover,

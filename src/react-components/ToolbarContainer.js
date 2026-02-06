@@ -49,11 +49,16 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
   }, [hubsStatus]);
 
   function handleCloseTab() {
+    window.__skipBeforeUnloadPrompt = true;
     try {
       window.close();
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn("Failed to close window", err);
+    } finally {
+      window.setTimeout(() => {
+        window.__skipBeforeUnloadPrompt = false;
+      }, 1000);
     }
   }
 
