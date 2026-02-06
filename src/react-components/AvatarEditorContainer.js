@@ -77,6 +77,21 @@ export function AvatarEditorContainer() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!hubsAuth.ready || thumbnailMode) return;
+
+    const onBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+    };
+  }, [hubsAuth.ready]);
+
   // TODO: Save the wave to a static image, or actually do some interesting animation with it.
   useEffect(async () => {
     if (canvasUrl === null) {

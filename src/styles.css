@@ -121,6 +121,10 @@ label {
   text-align: left;
 }
 
+.subcategoryTitle {
+  color: #f4f4f4;
+}
+
 .partSelector {
   margin-bottom: 16px;
   /* prevent margin collapse */
@@ -557,7 +561,13 @@ label {
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 10pt;
-  margin-bottom: 10px;
+  margin: 12px 0 6px;
+}
+
+
+.disabledAction {
+  position: relative;
+  display: inline-flex;
 }
 
 .modalStatus {
@@ -570,8 +580,26 @@ label {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 12px;
+}
+
+.modalActionDescriptions {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.modalActionLabel {
+  display: block;
+  font-weight: 600;
+  color: #f4fef7;
+}
+
+.modalActionDescription {
+  display: block;
+  color: #cfe7da;
+  font-size: 10.5pt;
 }
 
 .floatingResetButton {

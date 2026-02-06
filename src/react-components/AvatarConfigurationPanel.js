@@ -4,6 +4,7 @@ import "simplebar/dist/simplebar.min.css";
 import { AvatarPartSelector } from "./AvatarPartSelector";
 import { CategoryContainer } from "./CategoryContainer";
 import { TipContext } from "./TipContext";
+import useStrings from "../i18n/useStrings";
 
 export function AvatarConfigurationPanel({
   onScroll,
@@ -15,16 +16,19 @@ export function AvatarConfigurationPanel({
 }) {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const categoryNames = Object.keys(assets);
+  const { t } = useStrings();
 
   const partSelectors = categoryNames.map((categoryName) => {
     const category = assets[categoryName];
     const currentSelection = category.parts.find((part) => part.value === avatarConfig[categoryName]);
+    const categoryLabel = t(`category.${categoryName}`, null, categoryName);
     return (
       <AvatarPartSelector
         key={categoryName}
         isExpanded={expandedCategory === categoryName}
         setExpanded={(expand) => setExpandedCategory(expand ? categoryName : null)}
         categoryName={categoryName}
+        categoryLabel={categoryLabel}
         currentSelection={currentSelection}
         expandedContent={
           <CategoryContainer

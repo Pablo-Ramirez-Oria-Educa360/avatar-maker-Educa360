@@ -197,12 +197,47 @@ async function createThumbnailBlob() {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setSize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, false);
   renderer.setClearAlpha(0);
+  renderer.setClearColor(0x000000, 0);
 
   const camera = state.camera.clone();
   camera.aspect = THUMBNAIL_WIDTH / THUMBNAIL_HEIGHT;
   camera.updateProjectionMatrix();
 
-  renderer.render(state.scene, camera);
+  const scene = state.scene;
+  const hiddenLights = [];
+  scene.traverse((obj) => {
+    if (obj.isLight) {
+      hiddenLights.push([obj, obj.visible]);
+      obj.visible = false;
+    }
+  });
+
+  let skydomeVisible = null;
+  if (state.skydome) {
+    skydomeVisible = state.skydome.visible;
+    state.skydome.visible = false;
+  }
+
+  const ambient = new THREE.AmbientLight(0xffffff, 1.1);
+  const key = new THREE.DirectionalLight(0xffffff, 1.0);
+  key.position.set(0.4, 1.0, 1.0);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.6);
+  fill.position.set(-0.4, 0.6, 1.0);
+  scene.add(ambient);
+  scene.add(key);
+  scene.add(fill);
+
+  renderer.render(scene, camera);
+
+  scene.remove(ambient);
+  scene.remove(key);
+  scene.remove(fill);
+  hiddenLights.forEach(([light, wasVisible]) => {
+    light.visible = wasVisible;
+  });
+  if (state.skydome && skydomeVisible !== null) {
+    state.skydome.visible = skydomeVisible;
+  }
 
   return new Promise(resolve => {
     canvas.toBlob(blob => resolve(blob), "image/png");
@@ -359,6 +394,7 @@ function init() {
   state.scene = scene;
 
   const skydome = createSkydome(isThumbnailMode() ? 2 : 400);
+  state.skydome = skydome;
   scene.add(skydome);
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);

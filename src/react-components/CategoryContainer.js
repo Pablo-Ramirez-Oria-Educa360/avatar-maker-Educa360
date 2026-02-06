@@ -1,6 +1,7 @@
 import React, { useRef, useContext } from "react";
 import { ThumbnailButton } from "./ThumbnailButton";
 import { TipContext } from "./TipContext";
+import useStrings from "../i18n/useStrings";
 
 function AvatarPart({
   part,
@@ -85,10 +86,10 @@ function parseSubCategories({ category, currentSelection }) {
   });
 }
 
-export function SubCategory({ name, parts }) {
+export function SubCategory({ name, label, parts }) {
   return (
     <div key={name}>
-      <h2>{name}</h2>
+      <h2 className="subcategoryTitle">{label}</h2>
       {parts}
     </div>
   );
@@ -102,13 +103,16 @@ export function CategoryContainer({
   onHoverAvatarPart,
   onUnhoverAvatarPart,
 }) {
+  const { t } = useStrings();
   if (category.description) {
     const subcategoryInfo = parseSubCategories({ category, currentSelection });
     return subcategoryInfo.map(({ optionName, parts }) => {
+      const label = t(`subcategory.${optionName}`, null, optionName);
       return (
         <SubCategory
           key={optionName}
           name={optionName}
+          label={label}
           parts={parts.map(({ part, tip }) => (
             <AvatarPart
               {...{

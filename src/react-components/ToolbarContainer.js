@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Toolbar } from "./Toolbar";
 import { UploadButton } from "./UploadButton";
 import { MoreMenu } from "./MoreMenu";
@@ -17,13 +17,14 @@ function dispatchExportAvatar() {
 export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hubsStatus }) {
   const { t } = useStrings();
   const hubsReady = hubsAuth && hubsAuth.ready;
-  const returnUrl = (hubsAuth && hubsAuth.returnUrl) || "https://educa360.es";
   const statusKey = hubsStatus && hubsStatus.messageKey;
   const statusText = statusKey ? t(statusKey, null, hubsStatus.message) : hubsStatus && hubsStatus.message;
   const [collapsed, setCollapsed] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
+  const [showPostSendModal, setShowPostSendModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   const [avatarName, setAvatarName] = useState(t("avatar.default_name"));
+  const previousStatusRef = useRef(null);
 
   function dispatchSendToHubs() {
     dispatch(constants.sendToHubs, {
@@ -35,10 +36,25 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
     if (confirmAction === "randomize") {
       randomizeConfig();
     }
-    if (confirmAction === "return") {
-      window.open(returnUrl, "_blank", "noopener,noreferrer");
-    }
     setConfirmAction(null);
+  }
+
+  useEffect(() => {
+    const currentState = hubsStatus && hubsStatus.state;
+    if (currentState === "success" && previousStatusRef.current !== "success") {
+      setShowExportModal(false);
+      setShowPostSendModal(true);
+    }
+    previousStatusRef.current = currentState;
+  }, [hubsStatus]);
+
+  function handleCloseTab() {
+    try {
+      window.close();
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn("Failed to close window", err);
+    }
   }
 
   return (
@@ -65,9 +81,6 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
             items={
               <>
                 <UploadButton onGLBUploaded={onGLBUploaded} />
-                <a href="https://github.com/mozilla/hackweek-avatar-maker" target="_blank" rel="noreferrer">
-                  GitHub
-                </a>
               </>
             }
           />
@@ -93,17 +106,6 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
               </span>
               <span>{t("toolbar.finish")}</span>
             </button>
-            {returnUrl && (
-              <button type="button" className="returnButton btn btnGhost" onClick={() => setConfirmAction("return")}>
-                <span className="btnIcon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M3 11l9-8 9 8" />
-                    <path d="M5 10v10h5v-6h4v6h5V10" />
-                  </svg>
-                </span>
-                <span>{t("toolbar.return_to_hubs")}</span>
-              </button>
-            )}
           </div>
         </div>
         {statusText && (
@@ -111,23 +113,6 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
             <span>{statusText}</span>
           </div>
         )}
-        <div className="toolbarNotice">
-          <span>
-            The 3D models used in this app are ©2020-2022 by individual{" "}
-            <a href="https://www.mozilla.org" target="_blank" rel="noreferrer">
-              mozilla.org
-            </a>{" "}
-            contributors. Content available under a{" "}
-            <a
-              href="https://www.mozilla.org/en-US/foundation/licensing/website-content/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Creative Commons license
-            </a>
-            .
-          </span>
-        </div>
       </div>
       {showExportModal && (
         <div className="modalOverlay" role="presentation" onClick={() => setShowExportModal(false)}>
@@ -165,16 +150,7 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
                 />
                 <span className="modalHelper">{t("modal.name.helper")}</span>
               </div>
-              <div className="modalStep">
-                <span className="modalStepTitle">{t("modal.step.download.title")}</span>
-                <span className="modalStepBody">{t("modal.step.download.body")}</span>
-              </div>
-              <div className="modalStep">
-                <span className="modalStepTitle">{t("modal.step.send.title")}</span>
-                <span className="modalStepBody">{t("modal.step.send.body")}</span>
-              </div>
             </div>
-            {!hubsReady && <div className="modalHint">{t("modal.auth_hint")}</div>}
             {statusText && <div className="modalStatus">{statusText}</div>}
             <div className="modalActions">
               <button type="button" onClick={dispatchExportAvatar} className="btn btnAccent">
@@ -194,6 +170,48 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig, hubsAuth, hub
                   </svg>
                 </span>
                 <span>{t("modal.action.send")}</span>
+              </button>
+            </div>
+            {!hubsReady && <div className="modalHint">{t("modal.auth_hint")}</div>}
+            <div className="modalActionDescriptions">
+              <div>
+                <span className="modalActionLabel">{t("modal.action.download")}</span>
+                <span className="modalActionDescription">{t("modal.step.download.body")}</span>
+              </div>
+              <div>
+                <span className="modalActionLabel">{t("modal.action.send")}</span>
+                <span className="modalActionDescription">{t("modal.step.send.body")}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showPostSendModal && (
+        <div className="modalOverlay" role="presentation" onClick={() => setShowPostSendModal(false)}>
+          <div className="modal" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+            <div className="modalHeader">
+              <div>
+                <h3>{t("post_send.title")}</h3>
+                <p className="modalSubtitle">{t("post_send.body")}</p>
+              </div>
+              <button
+                type="button"
+                className="modalClose"
+                onClick={() => setShowPostSendModal(false)}
+                aria-label={t("modal.close")}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12" />
+                  <path d="M18 6l-12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="modalActions">
+              <button type="button" className="btn btnGhost" onClick={() => setShowPostSendModal(false)}>
+                <span>{t("post_send.keep_editing")}</span>
+              </button>
+              <button type="button" className="btn btnAccent" onClick={handleCloseTab}>
+                <span>{t("post_send.close_tab")}</span>
               </button>
             </div>
           </div>

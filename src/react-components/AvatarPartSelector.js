@@ -3,7 +3,14 @@ import { AvatarPartContainer } from "./AvatarPartContainer";
 import { CategoryHeading } from "./CategoryHeading";
 import { Collapsible } from "./Collapsible";
 
-export function AvatarPartSelector({ setExpanded, isExpanded, expandedContent, currentSelection, categoryName }) {
+export function AvatarPartSelector({
+  setExpanded,
+  isExpanded,
+  expandedContent,
+  currentSelection,
+  categoryName,
+  categoryLabel,
+}) {
   const containerEl = useRef(null);
   useEffect(() => {
     if (isExpanded) {
@@ -27,7 +34,7 @@ export function AvatarPartSelector({ setExpanded, isExpanded, expandedContent, c
     >
       <CategoryHeading
         {...{
-          categoryName,
+          categoryLabel,
           selectedPartName: currentSelection.displayName,
           image: currentSelection.value,
           isExpanded,
